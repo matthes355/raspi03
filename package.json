@@ -2,7 +2,13 @@
     "name": "playlist2vdj",
     "description": "Create playliste files fir VDJ",
     "version": "0.0.1",
-    "dependencies": {},
+    "dependencies": {
+        "@bannsaenger/node-red-contrib-artnet-controller": "0.1.4",
+        "node-red-contrib-oauth2": "5.2.7",
+        "node-red-contrib-sacn-in": "0.1.3",
+        "node-red-contrib-spotify": "0.1.4",
+        "node-red-huemag": "1.2.5"
+    },
     "node-red": {
         "settings": {
             "flowFile": "flows.json",

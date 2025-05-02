@@ -61,8 +61,7 @@
         "y": 60,
         "wires": [
             [
-                "b8bca9b0c0c6bed6",
-                "ae6e6e1054adc2b4"
+                "b8bca9b0c0c6bed6"
             ]
         ]
     },
@@ -177,23 +176,6 @@
         ]
     },
     {
-        "id": "577253c7f8b8a990",
-        "type": "debug",
-        "z": "a06c39118e4d019e",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1110,
-        "y": 320,
-        "wires": []
-    },
-    {
         "id": "690cfe3b389cb336",
         "type": "file",
         "z": "a06c39118e4d019e",
@@ -234,31 +216,15 @@
         "name": "",
         "statusCode": "",
         "headers": {},
-        "x": 610,
+        "x": 750,
         "y": 440,
-        "wires": []
-    },
-    {
-        "id": "ae6e6e1054adc2b4",
-        "type": "debug",
-        "z": "a06c39118e4d019e",
-        "name": "MJMJMJ",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 780,
-        "y": 300,
         "wires": []
     },
     {
         "id": "626f628152744a72",
         "type": "function",
         "z": "347339183fcd73ad",
+        "d": true,
         "name": "prep and init",
         "func": "var vdj_file = msg.vdj.vdj_basedir + \"/\" + msg.vdj.vdj_filename + '.vdjfolder';''\n\nvar vdj_fileheader = '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\" /><VirtualFolder>';\nvar vdj_filefooter = '</VirtualFolder>';\n\nmsg.vdj.vdj_fileheader = vdj_fileheader;\nmsg.vdj.vdj_filefooter = vdj_filefooter;\nmsg.filename = vdj_file;\nreturn msg;",
         "outputs": 1,
@@ -276,6 +242,7 @@
         "id": "b9e74d21c5e595d2",
         "type": "function",
         "z": "347339183fcd73ad",
+        "d": true,
         "name": "prep Spotify my recent tracks",
         "func": "msg.params = [{limit:50}];\nmsg.trackmode = 'tracklist';\nmsg.vdj.vdj_filename = \"spotify_zuletzt_gespielt\";\n\nreturn msg;",
         "outputs": 1,
@@ -293,6 +260,7 @@
         "id": "72e9dd437f78ab02",
         "type": "function",
         "z": "347339183fcd73ad",
+        "d": true,
         "name": "format spotify output",
         "func": "var record = [];\nvar artist = '';\nvar trackname = '';\nvar ranking = 0;\nvar actual_track = {};\n\nvar CT = 0;\nvar TM = msg.trackmode;\n\nif (TM === 'playlist' ) { CT = msg.payload.tracks.items.length;}\nelse                    { CT = msg.payload.items.length; }\n\nfor (var i=0; i<CT; i++) {\n    ranking = i+1;\n    if      ( TM === \"playlist\") { actual_track = msg.payload.tracks.items[i].track; }\n    else if ( TM ==='toptracks') { actual_track = msg.payload.items[i]; } \n    else                         { actual_track = msg.payload.items[i].track; }\n        trackname  = actual_track.name;\n        trackURI   = actual_track.uri;\n        trackid    = actual_track.id;\n        popularity = actual_track.popularity;\n        artist = '';\n        ct_artists = actual_track.artists.length;\n        \n        for (var j=0; j<ct_artists; j++) {\n            if (j===0) { pre = ''; } else { pre = ', ';}\n            artist = artist.concat (pre , actual_track.artists[j].name);\n        }\n        \n        record.push ({ranking:ranking, artist:artist, trackname:trackname, trackid:trackid, popularity:popularity});\n    }\n        \nmsg.record = record;\n\n\n\nreturn msg;",
         "outputs": 1,
@@ -300,8 +268,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 800,
-        "y": 100,
+        "x": 160,
+        "y": 140,
         "wires": [
             []
         ]
@@ -310,6 +278,7 @@
         "id": "103ac71894899c55",
         "type": "function",
         "z": "347339183fcd73ad",
+        "d": true,
         "name": "prep Spotify playlist",
         "func": "var params = [];\nvar payload = [];\nvar msglist = [];\nvar msgobj = {};\nvar ids= [];\n\npayload = msg.payload.split('\\\\n');\nCT = payload.length;\n/* delete empty lines */\nfor (var i=0; i<CT; i++) {\n    if (payload[i].length > 0) {\n            ids.push (payload[i]);\n    }\n}\n\npayload = ids;\nCT = payload.length;\n\nmsg.org     = payload;\nmsg.payload = payload;\n\nreturn msg;",
         "outputs": 1,
@@ -317,8 +286,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1030,
-        "y": 60,
+        "x": 150,
+        "y": 220,
         "wires": [
             []
         ]
@@ -327,6 +296,7 @@
         "id": "f203927579a42a62",
         "type": "function",
         "z": "347339183fcd73ad",
+        "d": true,
         "name": "prep sptotify my top tracks",
         "func": "msg.params = [{limit:50}];\nmsg.trackmode = 'toptracks';\nmsg.vdj.vdj_filename = \"spotify_meine_top50\";\n\nreturn msg;",
         "outputs": 1,
@@ -334,8 +304,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 60,
+        "x": 170,
+        "y": 180,
         "wires": [
             []
         ]
